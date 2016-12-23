@@ -2,15 +2,21 @@ import requests
 import pytz
 from datetime import datetime
 
+devman_api = "https://devman.org/api/challenges/solution_attempts"
+
 
 def load_attempts():
-    devman_api = "https://devman.org/api/challenges/solution_attempts?page={page}"
-    number_of_pages = requests.get(devman_api.format(page=1)).json()['number_of_pages']
+    page_number = 1
+    number_of_pages = 1
 
-    for page in range(1, number_of_pages):
-        response = requests.get(devman_api.format(page=page)).json()
+    while page_number <= number_of_pages:
+        response = requests.get(devman_api, params={'page': page_number}).json()
+        number_of_pages = int(response['number_of_pages'])
+
         for entry in response['records']:
             yield entry
+
+        page_number += 1
 
 
 def get_midnighters(records):
@@ -32,4 +38,4 @@ def main():
 
 
 if __name__ == '__main__':
-    main()
+ main()
