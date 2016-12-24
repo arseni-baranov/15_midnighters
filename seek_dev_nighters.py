@@ -2,7 +2,7 @@ import requests
 import pytz
 from datetime import datetime
 
-devman_api = "https://devman.org/api/challenges/solution_attempts"
+DEVMAN_API = "https://devman.org/api/challenges/solution_attempts"
 
 
 def load_attempts():
@@ -10,7 +10,7 @@ def load_attempts():
     number_of_pages = 1
 
     while page_number <= number_of_pages:
-        response = requests.get(devman_api, params={'page': page_number}).json()
+        response = requests.get(DEVMAN_API, params={'page': page_number}).json()
         number_of_pages = int(response['number_of_pages'])
 
         for entry in response['records']:
